@@ -1,0 +1,305 @@
+CellProfiler Pipeline: http://www.cellprofiler.org
+Version:5
+DateRevision:428
+GitHash:
+ModuleCount:16
+HasImagePlaneDetails:False
+
+Images:[module_num:1|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['Paired GFP and brightfield TIFF files from cell_count_input.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    :
+    Filter images?:Images only
+    Select the rule criteria:and (extension does isimage)
+
+Metadata:[module_num:2|svn_version:'Unknown'|variable_revision_number:6|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Extract metadata?:No
+    Metadata data type:Text
+    Metadata types:{}
+    Extraction method count:1
+    Metadata extraction method:Extract from file/folder names
+    Metadata source:File name
+    Regular expression to extract from file name:^(?P<Index>[0-9]+)_(?P<Sample>.+)_(?P<Channel>[gw])\.tif$
+    Regular expression to extract from folder name:.*
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain "")
+    Metadata file location:Elsewhere...|
+    Match file and image metadata:[]
+    Use case insensitive matching?:No
+    Metadata file name:None
+    Does cached metadata exist?:No
+
+NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|show_window:False|notes:['Pair GFP and brightfield images by their standardized sort order.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Assign a name to:Images matching rules
+    Select the image type:Color image
+    Name to assign these images:GFPColor
+    Match metadata:[]
+    Image set matching method:Order
+    Set intensity range from:Image metadata
+    Assignments count:2
+    Single images count:0
+    Maximum intensity:255.0
+    Process as 3D?:No
+    Relative pixel spacing in X:1.0
+    Relative pixel spacing in Y:1.0
+    Relative pixel spacing in Z:1.0
+    Select the rule criteria:and (file does contain "_g.tif")
+    Name to assign these images:GFPColor
+    Name to assign these objects:Cell
+    Select the image type:Color image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (file does contain "_w.tif")
+    Name to assign these images:Brightfield
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+
+Groups:[module_num:4|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Do you want to group your images?:No
+    grouping metadata count:1
+    Metadata category:None
+
+ColorToGray:[module_num:5|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:['Extract GFP green channel.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:GFPColor
+    Conversion method:Split
+    Image type:RGB
+    Name the output image:OrigGray
+    Relative weight of the red channel:1.0
+    Relative weight of the green channel:1.0
+    Relative weight of the blue channel:1.0
+    Convert red to gray?:No
+    Name the output image:OrigRed
+    Convert green to gray?:Yes
+    Name the output image:GFP
+    Convert blue to gray?:No
+    Name the output image:OrigBlue
+    Convert hue to gray?:No
+    Name the output image:OrigHue
+    Convert saturation to gray?:No
+    Name the output image:OrigSaturation
+    Convert value to gray?:No
+    Name the output image:OrigValue
+    Channel count:1
+    Channel number:1
+    Relative weight of the channel:1.0
+    Image name:Channel1
+
+Crop:[module_num:6|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:['Remove scale bar region from GFP.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:GFP
+    Name the output image:GFPCrop
+    Select the cropping shape:Rectangle
+    Select the cropping method:Coordinates
+    Apply which cycle's cropping pattern?:Every
+    Left and right rectangle positions:0,end
+    Top and bottom rectangle positions:0,1780
+    Coordinates of ellipse center:500,500
+    Ellipse radius, X direction:400
+    Ellipse radius, Y direction:200
+    Remove empty rows and columns?:All
+    Select the masking image:None
+    Select the image with a cropping mask:None
+    Select the objects:None
+
+Crop:[module_num:7|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:['Apply the same crop to brightfield.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Brightfield
+    Name the output image:BrightfieldCrop
+    Select the cropping shape:Rectangle
+    Select the cropping method:Coordinates
+    Apply which cycle's cropping pattern?:Every
+    Left and right rectangle positions:0,end
+    Top and bottom rectangle positions:0,1780
+    Coordinates of ellipse center:500,500
+    Ellipse radius, X direction:400
+    Ellipse radius, Y direction:200
+    Remove empty rows and columns?:All
+    Select the masking image:None
+    Select the image with a cropping mask:None
+    Select the objects:None
+
+ImageMath:[module_num:8|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:['Invert brightfield so dark cell centers become bright features.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Operation:Invert
+    Raise the power of the result by:1.0
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:BrightfieldInverted
+    Image or measurement?:Image
+    Select the first image:BrightfieldCrop
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:None
+    Multiply the second image by:1.0
+    Measurement:
+
+Smooth:[module_num:9|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['Suppress fine brightfield texture before center detection.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:BrightfieldInverted
+    Name the output image:BrightfieldSmooth
+    Select smoothing method:Gaussian Filter
+    Calculate artifact diameter automatically?:No
+    Typical artifact diameter:8.0
+    Edge intensity difference:0.1
+    Clip intensities to 0 and 1?:Yes
+
+EnhanceOrSuppressFeatures:[module_num:10|svn_version:'Unknown'|variable_revision_number:7|show_window:False|notes:['Enhance approximately cell-sized bright centers.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:BrightfieldSmooth
+    Name the output image:BrightfieldCenters
+    Select the operation:Enhance
+    Feature size:22
+    Feature type:Speckles
+    Range of hole sizes:1,10
+    Smoothing scale:2.0
+    Shear angle:0.0
+    Decay:0.95
+    Enhancement method:Tubeness
+    Speed and accuracy:Fast
+    Rescale result image:Yes
+
+IdentifyPrimaryObjects:[module_num:11|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:['Estimate total cells from enhanced brightfield centers.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:BrightfieldCenters
+    Name the primary objects to be identified:TotalCells
+    Typical diameter of objects, in pixel units (Min,Max):12,55
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:No
+    Method to distinguish clumped objects:Intensity
+    Method to draw dividing lines between clumped objects:Intensity
+    Size of smoothing filter:10
+    Suppress local maxima that are closer than this minimum allowed distance:12.0
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:After both thresholding and declumping
+    Automatically calculate size of smoothing filter for declumping?:No
+    Automatically calculate minimum allowed distance between local maxima?:No
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:5000
+    Use advanced settings?:Yes
+    Threshold setting version:12
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:1.0
+    Threshold correction factor:1.2
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:75
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Otsu
+
+IdentifyPrimaryObjects:[module_num:12|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:['Estimate GFP-positive cells with the same fixed fluorescence threshold.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:GFPCrop
+    Name the primary objects to be identified:PositiveCells
+    Typical diameter of objects, in pixel units (Min,Max):10,70
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:No
+    Method to distinguish clumped objects:Intensity
+    Method to draw dividing lines between clumped objects:Intensity
+    Size of smoothing filter:10
+    Suppress local maxima that are closer than this minimum allowed distance:12.0
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:After both thresholding and declumping
+    Automatically calculate size of smoothing filter for declumping?:No
+    Automatically calculate minimum allowed distance between local maxima?:No
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:5000
+    Use advanced settings?:Yes
+    Threshold setting version:12
+    Threshold strategy:Global
+    Thresholding method:Manual
+    Threshold smoothing scale:1.0
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.3607843137
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Manual
+
+CalculateMath:[module_num:13|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:['Positive cell count divided by total cell count, expressed as percent.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Name the output measurement:EstimatedTransfectionByCellCountPercent
+    Operation:Divide
+    Select the first operand measurement type:Image
+    Select the first operand objects:None
+    Select the first operand measurement:Count_PositiveCells
+    Multiply the above operand by:1.0
+    Raise the power of above operand by:1.0
+    Select the second operand measurement type:Image
+    Select the second operand objects:None
+    Select the second operand measurement:Count_TotalCells
+    Multiply the above operand by:1.0
+    Raise the power of above operand by:1.0
+    Take log10 of result?:No
+    Multiply the result by:100.0
+    Raise the power of result by:1.0
+    Add to the result:0.0
+    How should the output value be rounded?:Not rounded
+    Enter how many decimal places the value should be rounded to:0
+    Constrain the result to a lower bound?:Yes
+    Enter the lower bound:0.0
+    Constrain the result to an upper bound?:No
+    Enter the upper bound:100.0
+
+Threshold:[module_num:14|svn_version:'Unknown'|variable_revision_number:12|show_window:False|notes:['Binary GFP mask for the area metric.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:GFPCrop
+    Name the output image:GFPPositive
+    Threshold strategy:Global
+    Thresholding method:Manual
+    Threshold smoothing scale:0.0
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.3607843137
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Manual
+
+MeasureImageAreaOccupied:[module_num:15|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:['GFP-positive area fraction.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Measure the area occupied by:Binary Image
+    Select binary images to measure:GFPPositive
+    Select object sets to measure:
+
+ExportToSpreadsheet:[module_num:16|svn_version:'Unknown'|variable_revision_number:13|show_window:False|notes:['Export image-level counts and ratios.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the column delimiter:Comma (",")
+    Add image metadata columns to your object data file?:No
+    Add image file and folder names to your object data file?:Yes
+    Select the measurements to export:No
+    Calculate the per-image mean values for object measurements?:No
+    Calculate the per-image median values for object measurements?:No
+    Calculate the per-image standard deviation values for object measurements?:No
+    Output file location:Default Output Folder|.
+    Create a GenePattern GCT file?:No
+    Select source of sample row name:Metadata
+    Select the image to use as the identifier:GFPColor
+    Select the metadata to use as the identifier:None
+    Export all measurement types?:Yes
+    Press button to select measurements:
+    Representation of Nan/Inf:NaN
+    Add a prefix to file names?:No
+    Filename prefix:MyExpt_
+    Overwrite existing files without warning?:Yes
+    Data to export:Image
+    Combine these object measurements with those of the previous object?:No
+    File name:Image.csv
+    Use the object name for the file name?:No

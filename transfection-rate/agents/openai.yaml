@@ -1,0 +1,4 @@
+interface:
+  display_name: "Transfection Dual-Index Analysis"
+  short_description: "Report binary transfection and weighted expression"
+  default_prompt: "Use $transfection-rate to analyze this microscopy batch and report binary cell transfection rate plus brightness-weighted expression efficiency."
