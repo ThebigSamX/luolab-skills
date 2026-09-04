@@ -1,0 +1,4 @@
+interface:
+  display_name: "Point mutation design"
+  short_description: "Design and generate SnapGene point-mutant plasmids"
+  default_prompt: "Use $point-mutation-design to design point-mutant SnapGene plasmids and primers from a wild-type template."
