@@ -1,13 +1,19 @@
 ---
 name: transfection-rate
-description: "Analyze GFP or other reporter fluorescence microscopy batches and report two complementary indices by default: binary cell transfection rate (green versus not green, without brightness weighting) and brightness-weighted expression efficiency. Use for transfection-rate, transfection-efficiency, reporter-expression, fluorescence-positive cell counting, paired fluorescence plus brightfield images, DAPI/nuclear denominators, CellProfiler outputs, negative-control threshold calibration, or Chinese requests mentioning 转染率, 转染效率, 阳性细胞率, or 表达效率."
+description: "Provide a simple, exploratory estimate of GFP or other reporter transfection from fluorescence microscopy images. Report threshold-based cell-positive rate and brightness-weighted expression as rough relative indices, not validated absolute transfection efficiency. Use for approximate transfection-rate comparisons, paired fluorescence plus brightfield images, CellProfiler outputs, or Chinese requests mentioning 粗略估算转染率 or 相对转染效率."
 ---
 
 # Transfection Rate
 
-Preserve the original images and produce an auditable dual-index report. Do not
-use fluorescence-positive object count as the default cell transfection rate;
-bright cells can split into multiple objects and dim cells can disappear.
+This is a simplified image-based estimation workflow, not a rigorous or
+validated assay of absolute transfection efficiency. Use its outputs for rough,
+exploratory comparison only when acquisition conditions are matched. Do not
+present them as equivalent to flow cytometry or validated manual/nuclear cell
+counting.
+
+Preserve the original images and keep the calculation traceable. Do not use
+fluorescence-positive object count as the default estimate; bright cells can
+split into multiple objects and dim cells can disappear.
 
 ## Report two indices by default
 

@@ -1,4 +1,4 @@
 interface:
-  display_name: "Transfection Dual-Index Analysis"
-  short_description: "Report binary transfection and weighted expression"
-  default_prompt: "Use $transfection-rate to analyze this microscopy batch and report binary cell transfection rate plus brightness-weighted expression efficiency."
+  display_name: "Approximate Transfection Estimate"
+  short_description: "Roughly estimate reporter transfection from images"
+  default_prompt: "Use $transfection-rate to make a rough, exploratory estimate of relative reporter transfection from this microscopy batch and state the method limitations clearly."
