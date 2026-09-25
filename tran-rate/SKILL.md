@@ -112,10 +112,16 @@ remain classified negative even when weak expression is visible on manual QC.
    `--intensity-max 255` for 8-bit data and verify raw-value preservation
    before using a different bit depth. This bundled classifier **requires a
    biological negative control** and center coordinates; it is not a direct
-   importer of Cellpose masks. With no control or with masks, use an appropriate
-   mask-based measurement/classifier, inspect score locations on overlays,
-   and label its threshold uncalibrated. Do not pass a transfected sample as
-   `--negative-control` merely to make the bundled script run.
+   importer of Cellpose masks. For paired 8-bit brightfield and GREEN TIFFs,
+   the bundled `scripts/cellpose_rate.py` instead generates Cellpose masks and
+   measures GFP within them, including when there is no negative control.
+   Run its `masks` stage, inspect the resulting cell-boundary QC at full
+   resolution, then run `classify --denominator-qc-reviewed`. The flag records
+   a human assertion, not automatic approval. See
+   [the RLMI_like reproduction guide](references/rlmi_like_reproduction.md)
+   for exact settings and commands; do not reuse its T=25 on other batches.
+   Do not pass a transfected sample as `--negative-control` merely to make
+   the legacy bundled classifier run.
 
 ## Calibrate the classifier
 
@@ -225,3 +231,8 @@ When brightfield supplies the denominator, include:
   cell-level audit outputs.
 - `scripts/summarize_cellprofiler.py`: summarize legacy area/object metrics
   only when comparison with earlier analyses is required.
+- `scripts/cellpose_rate.py`: segment original 8-bit brightfield TIFFs with
+  Cellpose and score paired original GREEN TIFFs after human mask QC.
+- `references/rlmi_like_reproduction.md`: exact input conventions, versions,
+  parameters, verification targets, and limits for reproducing the RLMI_like
+  exploratory T=25 analysis from the original paired images.
