@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a clean transfection-rate summary from CellProfiler Image.csv."""
+"""Create a clean reporter transfection summary from CellProfiler Image.csv."""
 
 from __future__ import annotations
 

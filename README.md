@@ -12,14 +12,14 @@ tables.
 
 Location: [`point-mutation-design/`](point-mutation-design/)
 
-### Transfection rate
+### Tran-rate
 
-Provide a simple, exploratory estimate of reporter transfection from
-fluorescence microscopy images. The output is intended for rough relative
-comparison under matched imaging conditions, not validated absolute
-quantification.
+Estimate reporter-positive cell fractions from paired microscopy images with
+cell-mask and threshold QC. Without a biological negative control, results are
+uncalibrated exploratory estimates. Cross-sample comparison requires matched
+imaging conditions; this is not validated absolute quantification.
 
-Location: [`transfection-rate/`](transfection-rate/)
+Location: [`tran-rate/`](tran-rate/)
 
 ## Install
 
@@ -40,7 +40,7 @@ discovered.
 当前包含：
 
 - `point-mutation-design`：批量设计点突变质粒、背靠背 PCR/Gibson 引物，并生成和验证 SnapGene `.dna` 文件。
-- `transfection-rate`：基于 GFP 等报告基因荧光显微图像，对转染效率进行简化、粗略的探索性估算，适合相同成像条件下的组内相对比较，不应视为严谨的绝对定量结果。
+- `tran-rate`：从明场或核染图像定位细胞，测量配对荧光图像并人工复核掩膜与阈值；无阴性对照时仅为未校准的粗略估计，跨样品比较需相同成像条件，不应视为严谨的绝对定量结果。
 
 ## License
 

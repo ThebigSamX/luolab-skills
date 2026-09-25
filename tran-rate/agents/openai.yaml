@@ -1,0 +1,4 @@
+interface:
+  display_name: "tran-rate"
+  short_description: "Estimate reporter-positive cell rate from microscopy"
+  default_prompt: "Use $tran-rate to make a rough, exploratory estimate of relative reporter transfection from this microscopy batch and state the method limitations clearly."
